@@ -55,11 +55,13 @@ public class MedlineSaxParser extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equalsIgnoreCase("MedlineCitation")) {
 			// Generate document
-			docs.push(new IngestionDocument("MEDLINE", pmid.toString() + "-" + version, "TITLE", articleTitle.toString().trim()));
-			docs.push(new IngestionDocument("MEDLINE", pmid.toString() + "-" + version, "ABSTRACT", abstractText.toString().trim()));
+			docs.push(new IngestionDocument("MEDLINE", pmid.toString() + "-" + version, "TITLE",
+					articleTitle.toString().trim()));
+			docs.push(new IngestionDocument("MEDLINE", pmid.toString() + "-" + version, "ABSTRACT",
+					abstractText.toString().trim()));
 
 			version = null;
-			
+
 			pmid.setLength(0);
 			articleTitle.setLength(0);
 			abstractText.setLength(0);
@@ -89,15 +91,5 @@ public class MedlineSaxParser extends DefaultHandler {
 
 	public Stack<IngestionDocument> getDocuments() {
 		return docs;
-	}
-
-	public static void main(String[] argc) throws ParserConfigurationException, SAXException, IOException {
-		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-		SAXParser saxParser = saxParserFactory.newSAXParser();
-		MedlineSaxParser handler = new MedlineSaxParser();
-		saxParser.parse(
-				new GZIPInputStream(new FileInputStream("/Users/ajimeno/Documents/work/medline/pubmed18n0928.xml.gz")),
-				handler);
-		System.out.println(handler.getDocuments().size());
 	}
 }

@@ -66,7 +66,7 @@ public class MedlineReader extends JCasCollectionReader_ImplBase {
 			jCas.setDocumentText(d.getText());
 			try {
 				ViewUriUtil.setURI(jCas, new URI(d.getSource() + "/" + d.getId() + "/" + d.getSection()));
-				//System.out.println("World: " + ViewUriUtil.getURI(jCas));
+				// System.out.println("World: " + ViewUriUtil.getURI(jCas));
 			} catch (URISyntaxException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
