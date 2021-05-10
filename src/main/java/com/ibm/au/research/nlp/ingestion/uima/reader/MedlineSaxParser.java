@@ -58,7 +58,7 @@ public class MedlineSaxParser extends DefaultHandler {
 			pmid.setLength(0);
 			articleTitle.setLength(0);
 			abstractText.setLength(0);
-		} else { // Clear tag
+		} else if (qName.equalsIgnoreCase("PMID") || qName.equalsIgnoreCase("ArticleTitle") || qName.equalsIgnoreCase("AbstractText")) { // Clear tag
 			tag = null;
 		}
 	}
