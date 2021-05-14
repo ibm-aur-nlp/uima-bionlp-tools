@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription
+	xmlns="http://uima.apache.org/resourceSpecifier">
+	<name>TypeSystem</name>
+	<description />
+	<version>1.0</version>
+	<vendor />
+	<imports>
+		<import name="org.cleartk.TypeSystem" />
+	</imports>
+	<types>
+		<typeDescription>
+			<name>com.ibm.au.research.nlp.types.Relation</name>
+			<description />
+			<supertypeName>org.cleartk.score.type.ScoredAnnotation
+			</supertypeName>
+			<features>
+				<featureDescription>
+					<name>arg1</name>
+					<description />
+					<rangeTypeName>org.cleartk.ne.type.NamedEntityMention
+					</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>arg2</name>
+					<description />
+					<rangeTypeName>org.cleartk.ne.type.NamedEntityMention
+					</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>relationId</name>
+					<description />
+					<rangeTypeName>uima.cas.String</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>relationType</name>
+					<description />
+					<rangeTypeName>uima.cas.String</rangeTypeName>
+				</featureDescription>
+			</features>
+		</typeDescription>
+		<typeDescription>
+			<name>com.ibm.au.research.nlp.types.Event</name>
+			<description />
+			<supertypeName>org.cleartk.score.type.ScoredAnnotation
+			</supertypeName>
+			<features>
+				<featureDescription>
+					<name>trigger</name>
+					<description />
+					<rangeTypeName>org.cleartk.ne.type.NamedEntityMention
+					</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>roles</name>
+					<description />
+					<rangeTypeName>uima.cas.FSArray</rangeTypeName>
+					<elementType>com.ibm.au.research.nlp.types.EventRole</elementType>
+				</featureDescription>
+				<featureDescription>
+					<name>eventId</name>
+					<description />
+					<rangeTypeName>uima.cas.String</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>eventType</name>
+					<description />
+					<rangeTypeName>uima.cas.String</rangeTypeName>
+				</featureDescription>
+			</features>
+		</typeDescription>
+		<typeDescription>
+			<name>com.ibm.au.research.nlp.types.EventRole</name>
+			<description />
+			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<features>
+				<featureDescription>
+					<name>role</name>
+					<description />
+					<rangeTypeName>uima.cas.String</rangeTypeName>
+				</featureDescription>
+				<featureDescription>
+					<name>entity</name>
+					<description />
+					<rangeTypeName>org.cleartk.ne.type.NamedEntityMention
+					</rangeTypeName>
+				</featureDescription>
+			</features>
+		</typeDescription>
+	</types>
+</typeSystemDescription>
