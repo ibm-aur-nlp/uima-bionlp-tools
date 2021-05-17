@@ -10,10 +10,7 @@
  Apache 2.0 License for more details.*/
 package com.ibm.au.research.nlp.dictionary;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -32,23 +29,6 @@ public class DrugBank2ConceptMapper {
 
 	private static Pattern pPipe = Pattern.compile("\\|");
 
-	private static Set<String> getStopwords() throws FileNotFoundException, IOException {
-		Set<String> words = new HashSet<>();
-
-		try (BufferedReader b = new BufferedReader(new FileReader("./stopwords-drugs.txt"))) {
-			String line;
-
-			while ((line = b.readLine()) != null) {
-				String word = line.trim();
-
-				if (word.length() > 0) {
-					words.add(word.toLowerCase());
-				}
-			}
-		}
-		return words;
-	}
-
 	private static void addTerm(String term, Set<String> set, Set<String> stopwords) {
 		term = term.trim();
 
@@ -64,7 +44,8 @@ public class DrugBank2ConceptMapper {
 				BufferedWriter w = new BufferedWriter(new FileWriter(argc[1]))) {
 			boolean isFirst = true;
 
-			Set<String> stopwords = getStopwords();
+			Set<String> stopwords = DictionaryUtils
+					.getStopwords("com/ibm/au/research/nlp/stopwords/stopwords-drugs.txt");
 
 			w.write("<?xml version='1.0' encoding='UTF8'?>");
 			w.newLine();
@@ -105,6 +86,5 @@ public class DrugBank2ConceptMapper {
 			w.write("</synonym>");
 			w.newLine();
 		}
-
 	}
 }

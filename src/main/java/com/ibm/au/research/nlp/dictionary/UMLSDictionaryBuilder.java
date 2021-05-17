@@ -10,17 +10,14 @@
  Apache 2.0 License for more details.*/
 package com.ibm.au.research.nlp.dictionary;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.naming.NamingException;
@@ -31,42 +28,13 @@ import org.apache.commons.lang.StringEscapeUtils;
 import com.ibm.au.research.nlp.util.DBConnection;
 
 public class UMLSDictionaryBuilder {
-	private static Set<String> getStopwords() throws FileNotFoundException, IOException {
-		Set<String> words = new HashSet<>();
-
-		try (BufferedReader b = new BufferedReader(new FileReader("./stopwords-dictionary-builder.txt"))) {
-			String line;
-
-			while ((line = b.readLine()) != null) {
-				String word = line.trim();
-
-				if (word.length() > 0) {
-					words.add(word.toLowerCase());
-				}
-			}
-		}
-		return words;
-	}
-
-	private static void addStopwords(String swFileName, Set<String> words) throws FileNotFoundException, IOException {
-		try (BufferedReader b = new BufferedReader(new FileReader(swFileName))) {
-			String line;
-
-			while ((line = b.readLine()) != null) {
-				String word = line.trim();
-
-				if (word.length() > 0) {
-					words.add(word.toLowerCase());
-				}
-			}
-		}
-	}
-
 	private static void generateWords(BufferedWriter w, String typePrefix, String semanticTypes, String stopwordsFile)
 			throws FileNotFoundException, IOException, ClassNotFoundException, SQLException, NamingException,
 			ConfigurationException {
-		Set<String> stopwords = getStopwords();
-		addStopwords(stopwordsFile, stopwords);
+		Set<String> stopwords = DictionaryUtils
+				.getStopwords("com/ibm/au/research/nlp/stopwords/stopwords-dictionary-builder.txt");
+
+		stopwords.addAll(DictionaryUtils.getStopwords(stopwordsFile));
 
 		try (Connection con = DBConnection.getConnection();
 				Statement stmt = con.createStatement();
@@ -127,10 +95,11 @@ public class UMLSDictionaryBuilder {
 
 			generateWords(w, "D",
 					"\"Disease or Syndrome\", \"Neoplastic Process\", \"Congenital Abnormality\", \"Mental or Behavioral Dysfunction\", \"Experimental Model of Disease\", \"Acquired Abnormality\"",
-					"./diseaseStopwords.txt");
-			generateWords(w, "S", "\"Sign or Symptom\", \"Finding\"", "./symptomStopwords.txt");
+					"com/ibm/au/research/nlp/stopwords/diseaseStopwords.txt");
+			generateWords(w, "S", "\"Sign or Symptom\", \"Finding\"",
+					"com/ibm/au/research/nlp/stopwords/symptomStopwords.txt");
 			generateWords(w, "A", "\"Body Part, Organ, or Organ Component\", \"Body Space or Junction\"",
-					"./anatomyStopwords.txt");
+					"com/ibm/au/research/nlp/stopwords/anatomyStopwords.txt");
 
 			w.write("</synonym>");
 			w.newLine();
