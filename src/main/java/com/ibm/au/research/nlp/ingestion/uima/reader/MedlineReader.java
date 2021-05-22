@@ -29,6 +29,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.cleartk.util.ViewUriUtil;
+import org.xml.sax.XMLReader;
 
 public class MedlineReader extends JCasCollectionReader_ImplBase {
 	public static final String PARAM_FILE_NAME = "fileName";
@@ -38,13 +39,16 @@ public class MedlineReader extends JCasCollectionReader_ImplBase {
 
 	public void initialize(UimaContext context) throws ResourceInitializationException {
 		fileName = (String) context.getConfigParameterValue(PARAM_FILE_NAME);
-
 		try {
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 			SAXParser saxParser = saxParserFactory.newSAXParser();
-			MedlineSaxParser handler = new MedlineSaxParser();
-			saxParser.parse(new GZIPInputStream(new FileInputStream(fileName)), handler);
+			MedlineSaxParser handler = new MedlineSaxParser();			
+			XMLReader reader = saxParser.getXMLReader(); 
+			reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			saxParser.parse(new GZIPInputStream(new FileInputStream(fileName), 65536), handler);
+
 			documents = handler.getDocuments();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
