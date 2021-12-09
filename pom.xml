@@ -97,7 +97,7 @@
 		<dependency>
 			<groupId>au.com.nicta.csp</groupId>
 			<artifactId>BRATEval</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.3.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.uima</groupId>
